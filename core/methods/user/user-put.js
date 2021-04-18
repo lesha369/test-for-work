@@ -1,5 +1,6 @@
 const MethodInterface = require('../method-interface.js');
 const crypto = require('crypto');
+const validateSchema = require('../../schemas/user/user-put.js');
 
 class UserPut extends MethodInterface {
     /**
@@ -9,6 +10,8 @@ class UserPut extends MethodInterface {
      * @param {String} data.password User password
      */
     async run(data) {
+        this.validateParams(data, validateSchema);
+
         const {login, password: _password} = data;
         const password = crypto
             .createHash('md5')

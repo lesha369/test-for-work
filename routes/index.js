@@ -6,6 +6,7 @@ const runner = async (method, req, res) => {
     try {
         return await new methods[method]({data, req}, res);
     } catch (error) {
+        //console.log('>>>>>>>>>>>>>>>', error);
         const errorData = {msg: 'error', data: error};
 
         res.status(400).json(errorData);
@@ -28,6 +29,25 @@ module.exports = (app) => {
         await runner('userPut', req, res);
     });
 
+    // Note get
+    app.get('/note', async (req, res) => {
+        await runner('noteGet', req, res);
+    });
+
+    // Note create
+    app.put('/note', async (req, res) => {
+        await runner('notePut', req, res);
+    });
+
+    // Note modify
+    app.post('/note', async (req, res) => {
+        await runner('notePost', req, res);
+    });
+
+    // Note delete
+    app.delete('/note', async (req, res) => {
+        await runner('noteDelete', req, res);
+    });
 
     app.all('*', (req, res) => {
         res.send({msg: 'error', data: 'method not found'}, 404);

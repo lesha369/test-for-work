@@ -1,4 +1,7 @@
 const {Pool} = require('pg');
+const ZSchema = require('z-schema');
+const validator = new ZSchema();
+const jwt = require('jsonwebtoken');
 const queries = require('../queries');
 const {getPreparedQuery} = require('../../scripts.js');
 const {db} = require('../../config.js');
@@ -16,6 +19,10 @@ class MethodInterface {
         this.response = res;
         this.request = req;
         this.run(data);
+    }
+
+    get schema() {
+        return require(`../schemas/user/${this.constructor.name}`)
     }
 
     /**
@@ -58,7 +65,6 @@ class MethodInterface {
             });
             await pool.end();
             if (notFoundMsg && !result.rows.length) {
-                //console.log(`SQL QUERY ${queryName} error:`, notFoundMsg);
                 throw new Error(notFoundMsg);
             }
             if (returnType) {
@@ -77,6 +83,39 @@ class MethodInterface {
     getPool() {
         const pool = new Pool(db);
         return pool.connect();
+    }
+
+    /**
+     * Validation
+     * @param {Object} data Request data
+     * @param {Object|Boolean} schema Schema
+     */
+    validateParams(data, schema = this.schema) {
+        if (!validator.validate(data, schema)) {
+            //console.log(validator.getLastErrors());
+            this.send(validator.getLastErrors()[0].message, 400);
+            throw Error('Invalid validate');
+        }
+    }
+
+    /**
+     * Check JWT authorization
+     * @param {Object} accessToken Request data
+     */
+    checkAuthorization(accessToken) {
+        if (!this.request.headers.authorization) {
+            this.send('Access forbidden', 403)
+            throw Error('Not authorized');
+        }
+        jwt.verify(this.request.headers.authorization,
+            process.env.JWT_SECRET, (err, payload) => {
+            if (err) {
+                this.send(err.message, 403);
+                throw Error(err);
+            }
+            /*console.log('<<<<<<<<<', payload)
+            console.log('>>>>>>>>>>>>', Math.round(new Date().getTime() / 1000))*/
+        });
     }
 }
 
