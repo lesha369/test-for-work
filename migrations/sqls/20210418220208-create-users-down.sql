@@ -1,0 +1,1 @@
+DELETE FROM testing.users WHERE user_id IN (1,2,3);
