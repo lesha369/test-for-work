@@ -11,3 +11,4 @@ require('./routes')(app);
 app.listen(process.env.APP_API_PORT, () => {
     console.log(`Listen port: ${process.env.APP_API_PORT}`);
 })
+module.exports = app;

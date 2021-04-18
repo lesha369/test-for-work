@@ -14,6 +14,9 @@ const runner = async (method, req, res) => {
 };
 
 module.exports = (app) => {
+    // ping pong
+    app.get('/ping', (req, res) => res.json({pong: true}));
+
     // User info
     app.get('/user', async (req, res) => {
         await runner('userGet', req, res);
