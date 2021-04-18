@@ -12,7 +12,13 @@
 			},
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImxvZ2luIjoiYyIsImlhdCI6MTYxODc4Mjc1NSwiZXhwIjoxNjE4NzgyODE1fQ.ZP3ivBbFAvxhh-2nfD6x6PGXArXY9SVtkQvxzqGfueY",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "formdata",
 					"formdata": [
@@ -25,7 +31,7 @@
 					]
 				},
 				"url": {
-					"raw": "127.0.0.1:8888/user?login=b",
+					"raw": "127.0.0.1:8888/user?userId=2&login=b",
 					"host": [
 						"127",
 						"0",
@@ -39,8 +45,7 @@
 					"query": [
 						{
 							"key": "userId",
-							"value": "22",
-							"disabled": true
+							"value": "2"
 						},
 						{
 							"key": "login",
@@ -135,6 +140,43 @@
 					"port": "8888",
 					"path": [
 						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "note",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImxvZ2luIjoiYyIsImlhdCI6MTYxODc4MTUwOSwiZXhwIjoxNjE4NzgxNTY5fQ.vtCnKlPlMzMW8hm4K9sq3iKkJsNCitTOL9anH8swWI0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "noteId",
+							"value": "10",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "127.0.0.1:8888/note",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8888",
+					"path": [
+						"note"
 					]
 				}
 			},

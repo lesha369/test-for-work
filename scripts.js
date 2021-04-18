@@ -1,6 +1,4 @@
 module.exports = {
-    isObject: value => !!(value && typeof value === 'object' && !Array.isArray(value)),
-
     has: (obj, keyName) => {
         return !obj ? false : Object.prototype.hasOwnProperty.call(obj, keyName);
     },
